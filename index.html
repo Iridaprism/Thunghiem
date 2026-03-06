@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rapaseos Studio · Nữ Chủ Tịch Tử Tử</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* =========================================
+           STYLE ĐẲNG CẤP CHỦ TỊCH - BẤT TỬ CORS 💅✨
+           ========================================= */
+        :root {
+            --primary: #00FF87;
+            --secondary: #60EFFF;
+            --accent: #FF3B6B;
+            --bg: #02040A;
+            --glass: rgba(15, 12, 30, 0.85);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: #E6E8FF; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 15px; overflow-x: hidden; }
+
+        /* Hiệu ứng nền vũ trụ */
+        .bg-stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #0a0d20 0%, #02040A 100%); z-index: -2; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 100vw; background: radial-gradient(circle, rgba(0, 255, 135, 0.08) 0%, transparent 65%); z-index: -1; pointer-events: none; }
+
+        .container { width: 100%; max-width: 500px; z-index: 10; margin-top: 10px; animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Header */
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { font-size: 34px; font-weight: 900; background: linear-gradient(135deg, var(--primary), var(--secondary), #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 25px rgba(0, 255, 135, 0.4); letter-spacing: -1.5px; }
+        .header p { color: #A0A8D8; font-size: 13px; font-weight: 700; opacity: 0.9; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Bảng Điều Khiển */
+        .control-panel { background: var(--glass); backdrop-filter: blur(25px); border: 1.5px solid var(--border); border-radius: 35px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); margin-bottom: 30px; }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; color: var(--primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1.5px; }
+        
+        textarea { width: 100%; background: rgba(0,0,0,0.6); border: 1.5px solid var(--border); color: white; padding: 18px 20px; border-radius: 20px; outline: none; transition: 0.3s; font-size: 15px; resize: vertical; min-height: 110px; line-height: 1.6; font-family: inherit; }
+        textarea:focus { border-color: var(--primary); box-shadow: 0 0 25px rgba(0, 255, 135, 0.2); background: rgba(0,0,0,0.8); }
+        textarea::placeholder { color: #4B5563; font-style: italic; }
+
+        /* Nút Triệu Hồi */
+        .btn-summon { width: 100%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #030008; border: none; padding: 20px; border-radius: 22px; font-size: 17px; font-weight: 900; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; text-transform: uppercase; box-shadow: 0 10px 30px rgba(0, 255, 135, 0.4); letter-spacing: 1px; }
+        .btn-summon:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 15px 45px rgba(0, 255, 135, 0.5); }
+        .btn-summon:active:not(:disabled) { transform: scale(0.97); }
+        .btn-summon:disabled { background: #1A2145; color: #4B5563; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Khung Tranh */
+        .result-stage { width: 100%; min-height: 400px; background: rgba(0, 0, 0, 0.5); border-radius: 35px; border: 2.5px dashed rgba(255, 255, 255, 0.08); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 10px; transition: 0.4s; box-shadow: inset 0 0 40px rgba(0,0,0,0.6); }
+        .result-stage.active { border-style: solid; border-color: var(--primary); box-shadow: 0 0 50px rgba(0, 255, 135, 0.15); }
+
+        .empty-icon { text-align: center; opacity: 0.3; }
+        .empty-icon i { width: 70px; height: 70px; margin-bottom: 12px; color: var(--primary); }
+
+        .loading-box { display: none; flex-direction: column; align-items: center; gap: 15px; color: var(--primary); z-index: 20; text-align: center; width: 90%; }
+        .spinner { width: 60px; height: 60px; border: 5px solid rgba(0, 255, 135, 0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .final-img { display: none; width: 100%; height: auto; border-radius: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); object-fit: contain; animation: imgReveal 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
+        @keyframes imgReveal { from { opacity: 0; transform: scale(0.85); filter: blur(20px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
+
+        /* Nút Tải Ảnh */
+        .action-area { display: none; width: 100%; padding: 25px 0; justify-content: center; }
+        .btn-download { background: rgba(0, 255, 135, 0.1); border: 2.5px solid var(--primary); color: var(--primary); padding: 18px 45px; border-radius: 22px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; text-decoration: none; font-size: 15px; letter-spacing: 1.5px; }
+        .btn-download:hover { background: var(--primary); color: #030008; box-shadow: 0 0 35px rgba(0, 255, 135, 0.5); transform: translateY(-3px); }
+
+        .footer-tip { font-size: 11px; color: #7F8ACF; margin-top: 15px; text-align: center; font-style: italic; opacity: 0.7; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-stars"></div>
+    <div class="bg-glow"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1><i data-lucide="zap" style="width: 32px; height: 32px;"></i> RAPASEOS STUDIO</h1>
+            <p>Hệ Thống Miễn Nhiễm Lỗi CORS</p>
+        </div>
+
+        <div class="control-panel">
+            <div class="input-group">
+                <label><i data-lucide="palette"></i> Ý tưởng nghệ thuật của Sếp:</label>
+                <textarea id="prompt-in" placeholder="Khỏi cần Chìa Khóa API luôn Sếp ơi! Cứ để trống nhắm mắt bấm nút là ra Cá Heo Hồng nha! 🐬✨"></textarea>
+            </div>
+
+            <button class="btn-summon" id="btn-draw" onclick="startHackGeneration()">
+                <i data-lucide="wand-2"></i> Kích Hoạt Tà Thuật
+            </button>
+            <p class="footer-tip">Bỏ qua API truyền thống, lấy ảnh trực tiếp bằng giao thức siêu tốc.</p>
+        </div>
+
+        <div class="result-stage" id="result-box">
+            <!-- Trạng thái trống -->
+            <div class="empty-icon" id="empty-ui">
+                <i data-lucide="image-plus"></i>
+                <p style="font-size: 13px; font-weight: 800; color: #7F8ACF; margin-top: 10px;">Khung tranh đang đợi Nữ chủ tịch vung cọ...</p>
+            </div>
+
+            <!-- Trạng thái Loading -->
+            <div class="loading-box" id="loading-ui">
+                <div class="spinner"></div>
+                <p style="font-size: 15px; font-weight: 900; letter-spacing: 1.5px; color: var(--primary); margin-top: 5px;">ĐANG NẶN PIXEL...</p>
+                <p style="font-size: 12px; color: #A0A8D8; font-style: italic; margin-top: 2px;">Tà thuật đang qua mặt trình duyệt, 5s là có ảnh nha!</p>
+            </div>
+
+            <!-- Trạng thái Hiện Ảnh -->
+            <img id="final-art" class="final-img" alt="Tuyệt tác của Sếp Tử Tử">
+        </div>
+
+        <div class="action-area" id="action-ui">
+            <a id="download-link" class="btn-download" download="KietTac_Rapaseos.jpg" target="_blank">
+                <i data-lucide="download"></i> TẢI XUỐNG KIỆT TÁC
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Khởi tạo icon
+        lucide.createIcons();
+
+        function startHackGeneration() {
+            let prompt = document.getElementById('prompt-in').value.trim();
+
+            // 🔥 TÍNH NĂNG AUTO CÁ HEO HỒNG VIP PRO
+            if (!prompt) {
+                prompt = "A majestic neon pink dolphin gracefully jumping out of a sparkling cosmic space ocean, cyberpunk city background, glowing neon lights, 8k resolution, cinematic lighting, highly detailed masterpiece";
+                document.getElementById('prompt-in').value = "Đang dùng tà thuật vẽ Cá Heo Hồng cực phẩm cho Sếp... 🐬✨";
+            }
+
+            // Giao diện
+            const btn = document.getElementById('btn-draw');
+            const loadingUI = document.getElementById('loading-ui');
+            const resultBox = document.getElementById('result-box');
+            const finalImg = document.getElementById('final-art');
+            const emptyUI = document.getElementById('empty-ui');
+            const actionUI = document.getElementById('action-ui');
+
+            // Reset UI
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader" class="spin" style="animation: spin 2s linear infinite;"></i> ĐANG PHA MÀU...';
+            lucide.createIcons();
+            
+            emptyUI.style.display = 'none';
+            finalImg.style.display = 'none';
+            actionUI.style.display = 'none';
+            resultBox.classList.remove('active');
+            loadingUI.style.display = 'flex';
+
+            // 👑 TÀ THUẬT NẰM Ở ĐÂY: KHÔNG FETCH, KHÔNG LỖI, KHÔNG API KEY
+            // Sử dụng Pollinations.ai (Engine FLUX.1 nằm bên dưới)
+            const seed = Math.floor(Math.random() * 9999999); // Chống trùng lặp ảnh
+            const encodedPrompt = encodeURIComponent(prompt);
+            
+            // Xây dựng Link siêu tốc
+            const directImageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${seed}&width=1024&height=1024&nologo=true&model=flux`;
+
+            // Nhét thẳng link vào thẻ Ảnh (Trình duyệt sẽ KHÔNG THỂ BÁO LỖI Failed to Fetch)
+            finalImg.src = directImageUrl;
+
+            // Lắng nghe khi bức ảnh thần thánh được tải xong
+            finalImg.onload = function() {
+                loadingUI.style.display = 'none';
+                finalImg.style.display = 'block';
+                actionUI.style.display = 'flex';
+                resultBox.classList.add('active');
+                
+                // Cài link cho nút tải
+                document.getElementById('download-link').href = directImageUrl;
+
+                // Trả lại nút bấm
+                btn.disabled = false;
+                btn.innerHTML = '<i data-lucide="sparkles"></i> VẼ TIẾP TẤM NỮA';
+                lucide.createIcons();
+            };
+
+            // Nếu lỡ xui xẻo mạng rớt (rất hiếm)
+            finalImg.onerror = function() {
+                loadingUI.style.display = 'none';
+                emptyUI.style.display = 'block';
+                emptyUI.innerHTML = '<i data-lucide="wifi-off" style="color:#FF3B6B; width: 60px; height: 60px; margin-bottom:10px;"></i><p style="color:#FF3B6B; font-weight: bold;">Mạng của Sếp giật lag rồi! Bấm vẽ lại nha!</p>';
+                lucide.createIcons();
+                btn.disabled = false;
+                btn.innerHTML = '<i data-lucide="rotate-cw"></i> THỬ LẠI NGAY';
+                lucide.createIcons();
+            };
+        }
+    </script>
+</body>
+</html>
+
+
