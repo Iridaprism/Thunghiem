@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rapaseos Vision V11 · Vượt Tường Lửa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* =========================================
+           STYLE ĐẲNG CẤP NỮ CHỦ TỊCH 💅✨
+           ========================================= */
+        :root {
+            --primary: #00FF87;
+            --secondary: #60EFFF;
+            --accent: #FF3B6B;
+            --bg: #030008;
+            --glass: rgba(20, 15, 40, 0.85);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: #E6E8FF; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 15px; overflow-x: hidden; }
+
+        /* Nền vũ trụ huyền ảo */
+        .bg-stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #1a1a3a 0%, #030008 100%); z-index: -2; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80vw; height: 80vw; background: radial-gradient(circle, rgba(0, 255, 135, 0.08) 0%, transparent 60%); z-index: -1; pointer-events: none; }
+
+        .container { width: 100%; max-width: 500px; z-index: 10; margin-top: 5px; }
+
+        /* Header */
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; font-weight: 900; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(0, 255, 135, 0.4); letter-spacing: -1px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .header p { color: #A0A8D8; font-size: 13px; font-weight: 700; opacity: 0.9; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Cỗ Máy Điều Khiển */
+        .control-panel { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 30px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); margin-bottom: 25px; }
+
+        .input-group { margin-bottom: 18px; }
+        label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        select, textarea { width: 100%; background: rgba(0,0,0,0.7); border: 1.5px solid rgba(255, 255, 255, 0.1); color: white; padding: 14px 18px; border-radius: 18px; outline: none; transition: 0.3s; font-size: 14px; }
+        select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 255, 135, 0.2); background: rgba(0,0,0,0.9); }
+        
+        textarea { resize: vertical; min-height: 90px; line-height: 1.5; font-family: inherit; }
+        textarea::placeholder { color: #4B5563; font-style: italic; }
+
+        /* Nút Vẽ (Triệu Hồi) */
+        .btn-summon { width: 100%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #030008; border: none; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: 900; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; text-transform: uppercase; box-shadow: 0 10px 25px rgba(0, 255, 135, 0.3); letter-spacing: 1px; }
+        .btn-summon:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 255, 135, 0.5); }
+        .btn-summon:active { transform: scale(0.97); }
+        .btn-summon:disabled { background: #1A2145; color: #4B5563; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Khung tranh huyền ảo */
+        .result-stage { width: 100%; min-height: 350px; background: rgba(0, 0, 0, 0.6); border-radius: 30px; border: 2px dashed rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 10px; transition: 0.5s; box-shadow: inset 0 0 30px rgba(0,0,0,0.7); }
+        .result-stage.active { border-style: solid; border-color: var(--primary); box-shadow: 0 0 40px rgba(0, 255, 135, 0.2); }
+
+        .empty-icon { text-align: center; opacity: 0.3; transition: 0.3s; }
+        .empty-icon i { width: 60px; height: 60px; margin-bottom: 10px; }
+
+        .loading-box { display: none; flex-direction: column; align-items: center; gap: 15px; color: var(--primary); z-index: 20; text-align: center; }
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(0, 255, 135, 0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .error-msg { display: none; color: var(--accent); text-align: center; padding: 25px; background: rgba(255, 59, 107, 0.1); border-radius: 25px; border: 1.5px solid var(--accent); width: 90%; }
+        .error-msg p { font-size: 13px; font-family: monospace; line-height: 1.5; margin-bottom: 10px;}
+
+        .final-img { display: none; width: 100%; height: auto; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); object-fit: contain; animation: imgReveal 1s ease-out; }
+        @keyframes imgReveal { from { opacity: 0; transform: scale(0.9); filter: blur(20px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
+
+        /* Nút Tải */
+        .action-area { display: none; width: 100%; padding: 20px 0; justify-content: center; }
+        .btn-download { background: rgba(0, 255, 135, 0.1); border: 2px solid var(--primary); color: var(--primary); padding: 14px 35px; border-radius: 18px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; text-decoration: none; font-size: 14px; letter-spacing: 1px; }
+        .btn-download:hover { background: var(--primary); color: #030008; box-shadow: 0 0 25px rgba(0, 255, 135, 0.4); transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <div class="bg-stars"></div>
+    <div class="bg-glow"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1><i data-lucide="shield-check"></i> STUDIO V11</h1>
+            <p>Hệ Thống Vượt Tường Lửa Tối Tân</p>
+        </div>
+
+        <div class="control-panel">
+            
+            <div class="input-group">
+                <label><i data-lucide="cpu"></i> CHỌN ĐỘNG CƠ VẼ:</label>
+                <select id="model-select">
+                    <!-- Mị để sẵn FLUX, Sếp mà lỗi thì Sếp chọn Stable Diffusion nha! -->
+                    <option value="https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell">🔥 FLUX.1 Schnell (Đẹp Bá Cháy Bọ Chét)</option>
+                    <option value="https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0">🚀 Stable Diffusion XL (Ổn Định Như Đá)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label><i data-lucide="palette"></i> Ý TƯỞNG CỦA SẾP:</label>
+                <textarea id="prompt-in" placeholder="Sếp Cứ Gõ Ý Tưởng Vào Đây. Hoặc Bấm Luôn Nút Chạy, Mị Sẽ Tự Hiểu Là Sếp Muốn Vẽ Cá Heo Hồng Nha! 🐬✨"></textarea>
+            </div>
+
+            <button class="btn-summon" id="btn-draw" onclick="summonMagic()">
+                <i data-lucide="wand-2"></i> Bấm Phép Triệu Hồi
+            </button>
+            <p style="font-size: 11px; color: #7F8ACF; text-align: center; margin-top: 15px; font-style: italic;">Chìa khóa VIP đã được nhúng sẵn qua cổng CORS Proxy.</p>
+        </div>
+
+        <!-- KHUNG HIỂN THỊ -->
+        <div class="result-stage" id="result-box">
+            <div class="empty-icon" id="empty-ui">
+                <i data-lucide="image-plus" style="width: 60px; height: 60px; color: var(--primary); opacity: 0.4;"></i>
+                <p style="font-size: 13px; font-weight: 800; margin-top: 10px; color: #7F8ACF;">Đang chờ lệnh của Sếp...</p>
+            </div>
+
+            <div class="loading-box" id="loading-ui">
+                <div class="spinner"></div>
+                <p id="loading-txt" style="font-size: 14px; font-weight: 900; letter-spacing: 1px; color: var(--primary);">ĐỘNG CƠ ĐANG VƯỢT RÀO...</p>
+                <p id="loading-sub" style="font-size: 11px; color: #A0A8D8; font-style: italic; margin-top: -5px; font-weight: normal;"></p>
+            </div>
+
+            <div class="error-msg" id="error-ui">
+                <h4 style="margin-bottom: 10px; color: var(--accent);"><i data-lucide="shield-x"></i> Á ÔI LỖI RỒI!</h4>
+                <p id="error-txt"></p>
+            </div>
+
+            <img id="final-art" class="final-img" alt="Tác phẩm của Sếp">
+        </div>
+
+        <div class="action-area" id="action-ui">
+            <a id="download-link" class="btn-download" download="CaHeoHong_Cua_Sep.jpg">
+                <i data-lucide="download"></i> LỤM VỀ BỘ SƯU TẬP
+            </a>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 🧠 CHÌA KHÓA BÍ MẬT CỦA SẾP TỬ TỬ
+        const HF_SECRET_KEY = "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";
+        
+        // CỔNG PHỤ PROXY - Dùng để "lừa" trình duyệt khỏi báo lỗi Failed to fetch
+        const CORS_PROXY = "https://corsproxy.io/?"; 
+
+        async function summonMagic() {
+            let prompt = document.getElementById('prompt-in').value.trim();
+            const selectedModelUrl = document.getElementById('model-select').value;
+
+            // Auto vẽ Cá Heo Hồng nếu Sếp lười
+            if (!prompt) {
+                prompt = "A majestic and extremely cute neon pink dolphin gracefully jumping out of a sparkling cosmic ocean, cyberpunk city background, glowing neon lights, 8k resolution, photorealistic, masterpiece";
+                document.getElementById('prompt-in').value = "Vẽ 1 con cá heo hồng (Mị tự lên ý tưởng rùi nghen! 🐬✨)";
+            }
+
+            const btn = document.getElementById('btn-draw');
+            const loadingUI = document.getElementById('loading-ui');
+            const errorUI = document.getElementById('error-ui');
+            const resultBox = document.getElementById('result-box');
+            const finalImg = document.getElementById('final-art');
+            const emptyUI = document.getElementById('empty-ui');
+            const actionUI = document.getElementById('action-ui');
+            const loadingSub = document.getElementById('loading-sub');
+
+            // --- BẬT CHẾ ĐỘ RỬA ẢNH ---
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader" class="spin"></i> ĐANG LUỒN LÁCH...';
+            lucide.createIcons();
+            
+            errorUI.style.display = 'none';
+            emptyUI.style.display = 'none';
+            finalImg.style.display = 'none';
+            actionUI.style.display = 'none';
+            resultBox.classList.remove('active');
+            loadingUI.style.display = 'flex';
+            
+            loadingSub.innerText = "Đang đi cửa sau, xin Sếp chờ chút xíu...";
+
+            try {
+                // GỌI QUA CỔNG PROXY ĐỂ TRÁNH BỊ CHẶN (Lách luật CORS)
+                const fetchUrl = CORS_PROXY + encodeURIComponent(selectedModelUrl);
+
+                const response = await fetch(fetchUrl, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${HF_SECRET_KEY}`,
+                        'Content-Type': 'application/json',
+                        'x-requested-with': 'XMLHttpRequest' // Dỗ ngọt thằng bảo vệ CORS
+                    },
+                    body: JSON.stringify({ inputs: prompt })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    if (errorData.error && errorData.error.includes("loading")) {
+                        throw new Error(`⚠️ Máy vẽ đang ngái ngủ, nó bảo cần ${Math.round(errorData.estimated_time || 20)} giây để khởi động! Sếp ráng chờ hết thời gian rồi bấm LẠI lần nữa là ra ảnh liền!`);
+                    }
+                    throw new Error(errorData.error || `Lỗi HTTP ${response.status}: Server Hugging Face khóc thét rùi!`);
+                }
+
+                // Lụm file ảnh nét nẹt
+                const blob = await response.blob();
+                const imageUrl = URL.createObjectURL(blob);
+
+                // HIỂN THỊ SIÊU PHẨM
+                finalImg.src = imageUrl;
+                document.getElementById('download-link').href = imageUrl;
+                
+                loadingUI.style.display = 'none';
+                finalImg.style.display = 'block';
+                actionUI.style.display = 'flex';
+                resultBox.classList.add('active');
+
+            } catch (err) {
+                loadingUI.style.display = 'none';
+                errorUI.style.display = 'block';
+                
+                if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
+                    document.getElementById('error-txt').innerText = "🚧 Thằng Cổng Phụ cũng bị chặn nốt rồi Sếp ơi! Điện thoại của Sếp nó 'khó ở' quá! Sếp xài UC Browser thử xem sao nha! 😭";
+                } else {
+                    document.getElementById('error-txt').innerText = err.message;
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i data-lucide="wand-2"></i> VẼ TIẾP TẤM NỮA';
+                lucide.createIcons();
+            }
+        }
+    </script>
+</body>
+</html>
+
+
