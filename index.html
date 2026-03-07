@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="referrer" content="no-referrer">
+    <title>Rapaseos V23 · Cách Mạng Tối Thượng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* =========================================
+           STYLE ĐẲNG CẤP CHỦ TỊCH VƯỢT NGHỊCH CẢNH 💅✨
+           ========================================= */
+        :root {
+            --primary: #00FF87;
+            --secondary: #60EFFF;
+            --accent: #FF3B6B;
+            --bg: #030612;
+            --glass: rgba(15, 20, 45, 0.9);
+            --neon-glow: 0 0 20px rgba(0, 255, 135, 0.3);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: #E6E8FF; height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+        
+        .bg-stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #0d1127 0%, #030612 100%); z-index: -2; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 100vw; background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%); z-index: -1; }
+
+        header { background: #0A0F25; padding: 15px 20px; border-bottom: 1px solid rgba(0, 212, 255, 0.2); z-index: 100; text-align: center; }
+        .logo-text { font-size: 26px; font-weight: 900; background: linear-gradient(95deg, var(--primary), var(--secondary), #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: var(--neon-glow); letter-spacing: -1.5px; }
+
+        .nav-tabs { display: flex; background: #111832; padding: 5px; border-radius: 20px; margin-top: 10px; gap: 5px; max-width: 450px; margin-left: auto; margin-right: auto; border: 1px solid rgba(255,255,255,0.05); }
+        .tab-item { flex: 1; padding: 12px; border-radius: 16px; border: none; background: transparent; color: #7F8ACF; font-weight: 800; font-size: 13px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .tab-item.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #030612; box-shadow: 0 5px 15px rgba(0, 255, 135, 0.3); }
+
+        main { flex: 1; overflow-y: auto; padding: 15px; scroll-behavior: smooth; position: relative; }
+        .chat-container { width: 100%; max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; }
+        
+        .msg-row { display: flex; gap: 10px; max-width: 95%; align-items: flex-start; }
+        .msg-row.user { align-self: flex-end; flex-direction: row-reverse; }
+        .avatar { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .avatar.bot { background: rgba(0, 255, 135, 0.15); border: 1px solid var(--primary); }
+        
+        .bubble { padding: 12px 16px; border-radius: 18px; font-size: 15px; line-height: 1.5; word-wrap: break-word; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .user .bubble { background: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%); color: #FFF; border-bottom-right-radius: 4px; }
+        .bot .bubble { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1); color: #E6E8FF; border-bottom-left-radius: 4px; }
+
+        /* 📸 SIÊU KHUNG HÌNH (VẼ ẢNH TRỰC TIẾP) 📸 */
+        .img-wrapper { width: 100%; margin-top: 10px; border-radius: 20px; overflow: hidden; border: 2.5px solid var(--primary); background: #000; box-shadow: 0 15px 45px rgba(0,0,0,0.7); position: relative; }
+        .img-wrapper img { width: 100%; height: auto; display: block; min-height: 200px;}
+        .img-overlay { position: absolute; inset: 0; background: #0A0F25; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary); font-weight: 800; font-style: italic; z-index: 5; }
+        .download-link { position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); color: var(--primary); border: 1px solid var(--primary); padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 5px; z-index: 10; }
+
+        .input-area { background: #0A0F25; padding: 12px 15px; border-top: 1px solid rgba(0, 212, 255, 0.2); }
+        .input-bar { display: flex; align-items: flex-end; gap: 10px; max-width: 700px; margin: 0 auto; background: #111832; padding: 8px 8px 8px 15px; border-radius: 25px; border: 1px solid rgba(0, 212, 255, 0.25); }
+        textarea { flex: 1; background: transparent; border: none; outline: none; padding: 8px 0; font-size: 16px; color: #FFF; line-height: 1.4; resize: none; max-height: 100px; }
+        .btn-send { width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #030612; transition: 0.3s; flex-shrink: 0; }
+        .btn-send:disabled { opacity: 0.3; filter: grayscale(1); }
+
+        .loading-dots { display: none; padding: 5px 20px; color: var(--primary); font-size: 13px; font-weight: 800; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+        .spin { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="bg-stars"></div>
+    <div class="bg-glow"></div>
+
+    <header>
+        <div class="logo-text">RAPASEOS V23</div>
+        <div class="nav-tabs">
+            <button id="tab-mi" class="tab-item active" onclick="switchMode('mi')"><i data-lucide="sparkles"></i> Mị (Pro)</button>
+            <button id="tab-cyh" class="tab-item" onclick="switchMode('cyh')"><i data-lucide="basketball"></i> Dịch Hằng</button>
+        </div>
+    </header>
+
+    <main id="chat-screen">
+        <div class="chat-container" id="msg-box"></div>
+        <div id="loading-ui" class="loading-dots">Gồ đang vắt óc suy nghĩ... ✨</div>
+    </main>
+
+    <div class="input-area">
+        <div class="input-bar">
+            <textarea id="text-in" rows="1" placeholder="Nhắn 'Vẽ con cá heo hồng' Mị xuất chiêu ngay! 🐬"></textarea>
+            <button id="btn-send" class="btn-send" disabled onclick="talk()"><i data-lucide="send"></i></button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 🔑 API KEYS TRÂN QUÝ
+        const GOOGLE_KEY = "AIzaSyAUUltc7UprZ1l5l0vHe92gqZ84LZYh2A4"; 
+        const GROQ_KEY = "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"; 
+
+        let currentMode = "mi"; 
+        let messages = [{ role: 'assistant', content: 'Kaka!!! Chúc mừng Sếp đã thông chốt nhà mạng! 🎉 Còn Google đòi tiền thì Mị CẮT ĐỨT với nó luôn! Từ giờ Sếp nhắn chữ "Vẽ", Mị sẽ tự động dùng "Não Phải" vẽ thẳng luôn, không cần hỏi ý kiến Google nữa! Sếp thử gõ "Vẽ con cá heo hồng" xem! 🐬💅✨' }];
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-${mode}`).classList.add('active');
+            render();
+        }
+
+        function render() {
+            const box = document.getElementById('msg-box');
+            box.innerHTML = '';
+            messages.forEach((m) => {
+                const row = document.createElement('div');
+                row.className = `msg-row ${m.role === 'user' ? 'user' : 'bot'}`;
+                
+                let html = m.content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+
+                // 🔥 XỬ LÝ ẢNH TRỰC TIẾP TỪ MARKDOWN
+                html = html.replace(/!\[Vẽ Ảnh\]\((.*?)\)/g, function(match, url) {
+                    return `
+                    <div class="img-wrapper">
+                        <div class="img-overlay"><i data-lucide="palette" class="spin"></i> Đang nặn pixel siêu tốc...</div>
+                        <img src="${url}" onload="this.previousSibling.style.display='none'; lucide.createIcons();" onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;color:#FF3B6B>Lỗi tải ảnh rồi Sếp ơi!</div>'">
+                        <a href="${url}" target="_blank" class="download-link"><i data-lucide="download"></i> Lụm Về</a>
+                    </div>`;
+                });
+
+                const avatar = m.role === 'assistant' ? `<div class="avatar bot">${currentMode==='cyh'?'🏀':'💅'}</div>` : '';
+                row.innerHTML = `${avatar}<div class="bubble">${html}</div>`;
+                box.appendChild(row);
+            });
+            lucide.createIcons();
+            setTimeout(() => { document.getElementById('chat-screen').scrollTop = document.getElementById('chat-screen').scrollHeight; }, 50);
+        }
+
+        async function talk() {
+            const input = document.getElementById('text-in');
+            const val = input.value.trim(); if (!val) return;
+            input.value = ''; input.style.height = 'auto';
+            messages.push({ role: 'user', content: val }); render();
+
+            // ========================================================
+            // 🧠 TÀ THUẬT V23: CHẶN ĐỨNG YÊU CẦU VẼ ẢNH TRƯỚC KHI GỬI CHO GOOGLE
+            // ========================================================
+            let lowerVal = val.toLowerCase();
+            if (lowerVal.includes("vẽ") || lowerVal.includes("tạo ảnh") || lowerVal.includes("cho xem hình")) {
+                
+                // Lọc bỏ mấy chữ thừa thãi, lấy đúng ý tưởng Sếp muốn vẽ
+                let promptForImage = val.replace(/vẽ/gi, "").replace(/cho sếp/gi, "").replace(/mị ơi/gi, "").replace(/dịch hằng ơi/gi, "").trim();
+                if (!promptForImage) promptForImage = "a beautiful pink dolphin"; // Mặc định nếu Sếp lười
+                
+                // Trộn thêm mấy câu thần chú tiếng Anh cho ảnh nó mượt
+                promptForImage += ", 8k resolution, cinematic lighting, masterpiece, hyper realistic";
+
+                // Sinh ra link ảnh trực tiếp bằng Pollinations (Không cần API Key)
+                const seed = Math.floor(Math.random() * 999999);
+                const finalUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(promptForImage)}?width=1024&height=1024&nologo=true&seed=${seed}`;
+                
+                // Trả lời Sếp ngay lập tức trong 0.1 giây (Bỏ qua Google)
+                const replyText = currentMode === 'mi' 
+                    ? `Kaka! Sếp cất chìa khóa Google đi, nó hết tiền rồi! Mị tự tay vẽ luôn cho lẹ nè! 💅✨\n\n![Vẽ Ảnh](${finalUrl})` 
+                    : `Lên ngay 1 tấm hình nghệ thuật cho Sếp! 🏀😎\n\n![Vẽ Ảnh](${finalUrl})`;
+                
+                messages.push({ role: 'assistant', content: replyText });
+                render();
+                document.getElementById('btn-send').disabled = false;
+                return; // DỪNG LẠI Ở ĐÂY, KHÔNG GỌI GOOGLE NỮA!
+            }
+            // ========================================================
+
+            document.getElementById('loading-ui').style.display = 'block';
+
+            try {
+                let responseText = "";
+                if (currentMode === 'mi') {
+                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GOOGLE_KEY}`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: "Bạn là Mị, trợ lý AI của Rapaseos. Trả lời vui vẻ, xì teen, ngầu, dùng emoji. NẾU USER HỎI VỀ LỖI, hãy nói là do Google đòi tiền sếp Tử Tử.\n\n" + val }] }] })
+                    });
+                    const d = await res.json();
+                    if (d.error) {
+                        responseText = `Google nó đòi nợ kìa Sếp ơiii: **${d.error.message}** 💸 Lấy Groq (Dịch Hằng) ra xài đỡ nha!`;
+                    } else {
+                        responseText = d?.candidates?.[0]?.content?.parts?.[0]?.text || "Mị bị nấc cụt rồi!";
+                    }
+                } else {
+                    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                        method: "POST", headers: { "Authorization": `Bearer ${GROQ_KEY}`, "Content-Type": "application/json" },
+                        body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "system", content: "Bạn là Trần Dịch Hằng, năng động vô tri." }, { role: "user", content: val }] })
+                    });
+                    const d = await res.json();
+                    responseText = d?.choices?.[0]?.message?.content || "Hằng rớt bóng rùi!";
+                }
+                messages.push({ role: 'assistant', content: responseText });
+            } catch (e) {
+                messages.push({ role: 'assistant', content: "🚨 Lỗi hệ thống mất rồi Sếp ơi!" });
+            } finally { document.getElementById('loading-ui').style.display = 'none'; render(); }
+        }
+
+        document.getElementById('text-in').addEventListener('input', function() { 
+            this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px'; 
+            document.getElementById('btn-send').disabled = !this.value.trim(); 
+        });
+        document.getElementById('text-in').addEventListener('keydown', (e) => { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); talk(); } });
+        render();
+    </script>
+</body>
+</html>
+
+
