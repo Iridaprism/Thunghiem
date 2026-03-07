@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="referrer" content="no-referrer">
+    <title>Rapaseos Studio V22 · Nữ Chủ Tịch Tử Tử</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* =========================================
+           STYLE ĐẲNG CẤP CHỦ TỊCH - KHÔNG LỖI 💅👑
+           ========================================= */
+        :root {
+            --primary: #00FF87;
+            --secondary: #60EFFF;
+            --accent: #FF3B6B;
+            --bg: #030612;
+            --glass: rgba(15, 20, 45, 0.9);
+            --neon-glow: 0 0 20px rgba(0, 255, 135, 0.3);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: #E6E8FF; height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* Nền vũ trụ huyền ảo */
+        .bg-stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #0d1127 0%, #030612 100%); z-index: -2; }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 100vw; background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%); z-index: -1; }
+
+        header { background: #0A0F25; padding: 15px 20px; border-bottom: 1px solid rgba(0, 212, 255, 0.2); z-index: 100; text-align: center; }
+        .logo-text { font-size: 26px; font-weight: 900; background: linear-gradient(95deg, var(--primary), var(--secondary), #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: var(--neon-glow); letter-spacing: -1.5px; }
+
+        /* Tabs điều hướng */
+        .nav-tabs { display: flex; background: #111832; padding: 5px; border-radius: 20px; margin-top: 10px; gap: 5px; max-width: 450px; margin-left: auto; margin-right: auto; border: 1px solid rgba(255,255,255,0.05); }
+        .tab-item { flex: 1; padding: 12px; border-radius: 16px; border: none; background: transparent; color: #7F8ACF; font-weight: 800; font-size: 13px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .tab-item.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #030612; box-shadow: 0 5px 15px rgba(0, 255, 135, 0.3); }
+
+        main { flex: 1; overflow-y: auto; padding: 15px; scroll-behavior: smooth; position: relative; }
+        .chat-container { width: 100%; max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; }
+        
+        /* Tin nhắn */
+        .msg-row { display: flex; gap: 10px; max-width: 95%; align-items: flex-start; }
+        .msg-row.user { align-self: flex-end; flex-direction: row-reverse; }
+        .avatar { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .avatar.bot { background: rgba(0, 255, 135, 0.15); border: 1px solid var(--primary); }
+        
+        .bubble { padding: 12px 16px; border-radius: 18px; font-size: 15px; line-height: 1.5; word-wrap: break-word; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .user .bubble { background: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%); color: #FFF; border-bottom-right-radius: 4px; }
+        .bot .bubble { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1); color: #E6E8FF; border-bottom-left-radius: 4px; backdrop-filter: blur(10px); }
+
+        /* 📸 SIÊU KHUNG HÌNH (BYPASS CORS) 📸 */
+        .img-wrapper { width: 100%; margin-top: 10px; border-radius: 20px; overflow: hidden; border: 2.5px solid var(--primary); background: #000; box-shadow: 0 15px 45px rgba(0,0,0,0.7); position: relative; }
+        .img-wrapper img { width: 100%; height: auto; display: block; }
+        .img-overlay { position: absolute; inset: 0; background: #0A0F25; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary); font-weight: 800; font-style: italic; z-index: 5; }
+        
+        .download-link { position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); color: var(--primary); border: 1px solid var(--primary); padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 5px; z-index: 10; }
+
+        /* Khu vực nhập liệu */
+        .input-area { background: #0A0F25; padding: 12px 15px; border-top: 1px solid rgba(0, 212, 255, 0.2); }
+        .input-bar { display: flex; align-items: flex-end; gap: 10px; max-width: 700px; margin: 0 auto; background: #111832; padding: 8px 8px 8px 15px; border-radius: 25px; border: 1px solid rgba(0, 212, 255, 0.25); }
+        textarea { flex: 1; background: transparent; border: none; outline: none; padding: 8px 0; font-size: 16px; color: #FFF; line-height: 1.4; resize: none; max-height: 100px; }
+        
+        .btn-send { width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #030612; transition: 0.3s; flex-shrink: 0; }
+        .btn-send:disabled { opacity: 0.3; filter: grayscale(1); }
+
+        .loading-dots { display: none; padding: 5px 20px; color: var(--primary); font-size: 13px; font-weight: 800; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+    </style>
+</head>
+<body>
+    <div class="bg-stars"></div>
+    <div class="bg-glow"></div>
+
+    <header>
+        <div class="logo-text">RAPASEOS STUDIO V22</div>
+        <div class="nav-tabs">
+            <button id="tab-mi" class="tab-item active" onclick="switchMode('mi')"><i data-lucide="sparkles"></i> Mị (Pro)</button>
+            <button id="tab-cyh" class="tab-item" onclick="switchMode('cyh')"><i data-lucide="basketball"></i> Dịch Hằng</button>
+        </div>
+    </header>
+
+    <main id="chat-screen">
+        <div class="chat-container" id="msg-box"></div>
+        <div id="loading-ui" class="loading-dots">Đang xử lý kiệt tác cho Sếp... ✨</div>
+    </main>
+
+    <div class="input-area">
+        <div class="input-bar">
+            <textarea id="text-in" rows="1" placeholder="Nhắn 'Vẽ cho Sếp con cá heo hồng' 🐬"></textarea>
+            <button id="btn-send" class="btn-send" disabled onclick="talk()"><i data-lucide="send"></i></button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 🔑 API KEYS TRÂN QUÝ
+        const GOOGLE_KEY = "AIzaSyAUUltc7UprZ1l5l0vHe92gqZ84LZYh2A4"; 
+        const GROQ_KEY = "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"; 
+
+        let currentMode = "mi"; 
+        let messages = [{ role: 'assistant', content: 'Chào Nữ chủ tịch Tử Tử! 🥂 Mị đã gỡ bỏ mọi lệnh kết nối cũ hay bị lỗi mạng. Bản V22 này dùng **Giao thức Nhúng Ảnh trực tiếp**, đố thằng nhà mạng nào chặn được! Sếp thử gõ "Vẽ cho Sếp con cá heo hồng" xem nó có hiện ra ngay hông nha! 🐬✨' }];
+
+        // 🧠 LỆNH TRUYỀN CHO AI (Bắt nó phải dùng Markdown ảnh)
+        const PROMPT_MI = `Bạn là Mị, AI của Rapaseos. Gọi người dùng là Tử Tử. Hãy trả lời cực kỳ hài hước, ngầu, dùng nhiều emoji 💅✨🥂. 
+        QUY TẮC VẼ: Nếu Tử Tử muốn vẽ, hãy dịch ý tưởng sang tiếng Anh thật sang chảnh (VD: pink dolphin jumping in nebula, 8k, cinematic) và trả lời đúng cú pháp: ![Vẽ Ảnh](https://image.pollinations.ai/prompt/mô-tả-tiếng-anh-ngăn-cách-bằng-gạch-ngang?width=1024&height=1024&nologo=true)`;
+
+        const PROMPT_CYH = `Bạn là Trần Dịch Hằng, năng động vô tri. Nếu được nhờ vẽ, hãy chêm câu hài hước và dùng Markdown y hệt Mị.`;
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-${mode}`).classList.add('active');
+            render();
+        }
+
+        function render() {
+            const box = document.getElementById('msg-box');
+            box.innerHTML = '';
+            messages.forEach((m) => {
+                const row = document.createElement('div');
+                row.className = `msg-row ${m.role === 'user' ? 'user' : 'bot'}`;
+                
+                let html = m.content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+
+                // 🔥 TÀ THUẬT: BIẾN MARKDOWN THÀNH ẢNH MÀ KHÔNG CẦN FETCH
+                html = html.replace(/!\[Vẽ Ảnh\]\((.*?)\)/g, function(match, url) {
+                    const seed = Math.floor(Math.random() * 999999);
+                    const finalUrl = `${url}&seed=${seed}`;
+                    return `
+                    <div class="img-wrapper">
+                        <div class="img-overlay"><i data-lucide="palette" class="spin"></i> Đang nặn pixel...</div>
+                        <img src="${finalUrl}" onload="this.previousSibling.style.display='none'; lucide.createIcons();" onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;color:#FF3B6B>Lỗi tải ảnh rồi Sếp ơi!</div>'">
+                        <a href="${finalUrl}" target="_blank" class="download-link"><i data-lucide="download"></i> Lưu Ảnh</a>
+                    </div>`;
+                });
+
+                const avatar = m.role === 'assistant' ? `<div class="avatar bot">${currentMode==='cyh'?'🏀':'💅'}</div>` : '';
+                row.innerHTML = `${avatar}<div class="bubble">${html}</div>`;
+                box.appendChild(row);
+            });
+            lucide.createIcons();
+            setTimeout(() => { document.getElementById('chat-screen').scrollTop = document.getElementById('chat-screen').scrollHeight; }, 50);
+        }
+
+        async function talk() {
+            const input = document.getElementById('text-in');
+            const val = input.value.trim(); if (!val) return;
+            input.value = ''; input.style.height = 'auto';
+            messages.push({ role: 'user', content: val }); render();
+            document.getElementById('loading-ui').style.display = 'block';
+
+            try {
+                let responseText = "";
+                if (currentMode === 'mi') {
+                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GOOGLE_KEY}`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: PROMPT_MI + "\n\nUser: " + val }] }] })
+                    });
+                    const d = await res.json();
+                    responseText = d?.candidates?.[0]?.content?.parts?.[0]?.text || "Mị bị nấc cụt rồi!";
+                } else {
+                    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                        method: "POST", headers: { "Authorization": `Bearer ${GROQ_KEY}`, "Content-Type": "application/json" },
+                        body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "system", content: PROMPT_CYH }, { role: "user", content: val }] })
+                    });
+                    const d = await res.json();
+                    responseText = d?.choices?.[0]?.message?.content || "Hằng rớt bóng rùi!";
+                }
+                messages.push({ role: 'assistant', content: responseText });
+            } catch (e) {
+                messages.push({ role: 'assistant', content: "🚨 Lỗi hệ thống! Sếp kiểm tra lại app 1.1.1.1 nha!" });
+            } finally { document.getElementById('loading-ui').style.display = 'none'; render(); }
+        }
+
+        document.getElementById('text-in').addEventListener('input', function() { 
+            this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px'; 
+            document.getElementById('btn-send').disabled = !this.value.trim(); 
+        });
+        document.getElementById('text-in').addEventListener('keydown', (e) => { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); talk(); } });
+        render();
+    </script>
+</body>
+</html>
+
