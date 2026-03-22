@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Xem & Cập Nhật 📝</title>
+<script>(function(){try{let c=JSON.parse(localStorage.getItem('Cloyveh_Theme'));if(c&&c.length>0){let g=c.length===1?`linear-gradient(135deg,${c[0]}dd,${c[0]},${c[0]}ee)`:`linear-gradient(135deg,${c.join(',')})`;let s=document.createElement('style');s.innerHTML=`body{background:${g}!important;background-size:300% 300%!important;animation:bgShift 25s ease infinite!important;}`;document.head.appendChild(s);}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Base.css">
+<style>
+body { display: flex; flex-direction: column; min-height: 100vh; }
+.page-wrap { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+/* ── CONTENT DISPLAY ── */
+.content-display {
+    background: linear-gradient(135deg,
+        rgba(238,242,255,.65), rgba(219,234,254,.58));
+    border: 2px solid rgba(165,180,252,.5);
+    border-radius: 24px;
+    padding: 20px 22px;
+    font-size: clamp(.98rem,3.2vw,1.08rem);
+    font-weight: 600; color: var(--ink); line-height: 1.72;
+    white-space: pre-wrap; word-wrap: break-word;
+    box-shadow: 0 6px 24px rgba(99,102,241,.08),
+                inset 0 1px 0 rgba(255,255,255,.45);
+    max-height: 38vh; overflow-y: auto;
+    will-change: transform; transform: translateZ(0);
+    transition: max-height .4s var(--silk);
+}
+
+/* ── TOGGLE BUTTON ── */
+.btn-toggle {
+    background: linear-gradient(135deg,#e0e7ff,#c7d2fe,#ddd6fe);
+    color: #3730a3;
+    border: 1.5px solid rgba(165,180,252,.65);
+    padding: 9px 28px; border-radius: 24px;
+    font-weight: 900; font-size: clamp(.86rem,3vw,.97rem);
+    align-self: center;
+    box-shadow: 0 4px 14px rgba(99,102,241,.1),
+                inset 0 1px 0 rgba(255,255,255,.4);
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition: transform .3s var(--silk), box-shadow .3s var(--silk);
+}
+.btn-toggle:hover { box-shadow: var(--gp); }
+
+/* ── 3-COLUMN ACTION GRID ── */
+.action-3 {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 11px;
+}
+
+.action-btn {
+    padding: clamp(13px,3.5vw,16px) 5px;
+    font-weight: 900; border-radius: 18px;
+    font-size: clamp(.82rem,2.5vw,.98rem);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 4px;
+    touch-action: manipulation;
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition: transform .35s var(--silk), box-shadow .35s var(--silk);
+    border: 2px solid transparent;
+    line-height: 1.3;
+    text-align: center;
+}
+.action-btn:active {
+    transform: scale(.91) translateZ(0) !important;
+    transition: transform .07s var(--snap) !important;
+}
+
+.btn-update {
+    background: linear-gradient(135deg,#5eead4,#2dd4bf,#0d9488) !important;
+    color: #042f2e !important;
+    border-color: rgba(45,212,191,.65) !important;
+    box-shadow: 0 8px 24px rgba(20,184,166,.3) !important;
+}
+.btn-update:hover { box-shadow: var(--gm) !important; }
+
+.btn-talk {
+    background: linear-gradient(135deg,#fbcfe8,#f472b6,#ec4899) !important;
+    color: #500724 !important;
+    border-color: rgba(244,114,182,.58) !important;
+    box-shadow: 0 8px 24px rgba(244,114,182,.3) !important;
+}
+.btn-talk:hover { box-shadow: var(--gn) !important; }
+
+.btn-chat2 {
+    background: linear-gradient(135deg,#c4b5fd,#a78bfa,#7c3aed) !important;
+    color: rgba(255,255,255,.96) !important;
+    border-color: rgba(167,139,250,.65) !important;
+    box-shadow: 0 8px 24px rgba(167,139,250,.35) !important;
+}
+.btn-chat2:hover { box-shadow: var(--gp) !important; }
+
+/* ── CLOSE BUTTON ── */
+.btn-close-mem {
+    width: 100%; padding: 15px;
+    background: linear-gradient(135deg,
+        rgba(226,232,240,.75), rgba(203,213,225,.65));
+    color: #374151;
+    border: 2px solid rgba(148,163,184,.45);
+    border-radius: 18px;
+    font-weight: 900; font-size: .98rem;
+    cursor: pointer; touch-action: manipulation;
+    box-shadow: 0 4px 14px rgba(100,116,139,.1),
+                inset 0 1px 0 rgba(255,255,255,.4);
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition: transform .35s var(--silk), box-shadow .35s var(--silk);
+}
+.btn-close-mem:hover {
+    box-shadow: 0 6px 20px rgba(100,116,139,.2);
+}
+
+/* ── EDIT MODE BUTTONS ── */
+.btn-save-edit {
+    background: linear-gradient(135deg,#6ee7b7,#34d399,#10b981) !important;
+    color: #022c22 !important;
+    border: 2px solid rgba(52,211,153,.58) !important;
+    box-shadow: 0 8px 24px rgba(16,185,129,.3) !important;
+}
+.btn-save-edit:hover { box-shadow: var(--gm) !important; }
+
+.btn-cancel-edit {
+    background: linear-gradient(135deg,#fca5a5,#f87171,#ef4444) !important;
+    color: #450a0a !important;
+    border: 2px solid rgba(248,113,113,.58) !important;
+    box-shadow: 0 8px 24px rgba(239,68,68,.28) !important;
+}
+.btn-cancel-edit:hover {
+    box-shadow: 0 0 14px rgba(239,68,68,.65) !important;
+}
+
+/* Textarea edit wrap glow */
+.textarea-wrap-edit {
+    position: relative;
+}
+.textarea-wrap-edit::before {
+    content: '';
+    position: absolute; inset: -2px;
+    border-radius: 26px;
+    background: linear-gradient(135deg,#7c3aed,#38bdf8,#34d399);
+    background-size: 300% auto;
+    animation: borderFlow 5s linear infinite;
+    opacity: 0;
+    transition: opacity .4s var(--silk);
+    z-index: -1; pointer-events: none;
+}
+.textarea-wrap-edit:focus-within::before { opacity: .3; }
+</style>
+</head>
+<body>
+<!-- Ambient orb -->
+<div style="position:fixed;bottom:15vh;right:-5vw;width:clamp(160px,30vw,280px);height:clamp(160px,30vw,280px);background:radial-gradient(circle,rgba(52,211,153,.16) 0%,rgba(56,189,248,.1) 55%,transparent 75%);border-radius:50%;animation:orbPulse2 22s ease-in-out infinite;pointer-events:none;z-index:0;will-change:transform,opacity;"></div>
+
+<div class="topbar" id="topbar">
+    <a href="index.html" class="btn-back" id="backBtn">← Về Kho</a>
+    <div class="topbar-title" id="topTitle">Xem Ký Ức 📖</div>
+    <button class="btn-icon btn-icon-save" id="saveEditBtn" style="display:none" onclick="saveEdit()">Lưu</button>
+</div>
+
+<div class="page-wrap">
+    <input type="text" id="titleInput" class="glass-input" placeholder="Tên ký ức..." readonly>
+
+    <!-- VIEW MODE -->
+    <div id="viewSection">
+        <div class="content-display" id="contentDisplay"></div>
+        <button class="btn-toggle" id="toggleBtn" onclick="toggleExpand()" style="display:none;margin:10px auto 0;">Hiện toàn bộ</button>
+        <div class="action-3" style="margin-top:12px;">
+            <button class="action-btn btn-update" onclick="enterEdit()">✏️<span>Cập nhật</span></button>
+            <button class="action-btn btn-talk"   onclick="goTalk()">🎙️<span>Nói</span></button>
+            <button class="action-btn btn-chat2"  onclick="goChat()">💬<span>Chat</span></button>
+        </div>
+        <button class="btn-close-mem" style="margin-top:4px;" onclick="location.href='index.html'">Đóng</button>
+    </div>
+
+    <!-- EDIT MODE -->
+    <div id="editSection" style="display:none;flex-direction:column;gap:13px;">
+        <div class="textarea-wrap-edit">
+            <textarea id="contentEdit" class="glass-textarea"
+                      style="height:clamp(200px,42vw,340px)"
+                      placeholder="Nội dung..."></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;">
+            <button class="action-btn btn-save-edit" onclick="saveEdit()">💾 Hay đổi ko nào</button>
+            <button class="action-btn btn-cancel-edit" onclick="cancelEdit()">✕ Đóng</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast">✨ Thông báo</div>
+<script>
+const MK='Cloyveh_Codex_V2';
+let memId=null,isExpanded=false;
+function getM(){return JSON.parse(localStorage.getItem(MK)||'[]');}
+function setM(m){localStorage.setItem(MK,JSON.stringify(m));}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2500);}
+
+function init(){
+    const id=sessionStorage.getItem('CC_EditId');
+    if(!id){location.href='index.html';return;}
+    memId=parseInt(id);
+    const mem=getM().find(m=>m.id===memId);
+    if(!mem){location.href='index.html';return;}
+    document.getElementById('titleInput').value=mem.title;
+    const disp=document.getElementById('contentDisplay');
+    disp.textContent=mem.content;
+    /* Show toggle if content is long */
+    if(mem.content.length>300){
+        disp.style.maxHeight='38vh';
+        document.getElementById('toggleBtn').style.display='block';
+    } else {
+        disp.style.maxHeight='none';
+    }
+}
+
+function toggleExpand(){
+    const disp=document.getElementById('contentDisplay');
+    const btn=document.getElementById('toggleBtn');
+    isExpanded=!isExpanded;
+    disp.style.maxHeight=isExpanded?'none':'38vh';
+    btn.textContent=isExpanded?'Thu lại':'Hiện toàn bộ';
+}
+
+function enterEdit(){
+    const mem=getM().find(m=>m.id===memId);
+    if(!mem)return;
+    document.getElementById('titleInput').readOnly=false;
+    document.getElementById('contentEdit').value=mem.content;
+    document.getElementById('viewSection').style.display='none';
+    document.getElementById('editSection').style.display='flex';
+    document.getElementById('saveEditBtn').style.display='block';
+    document.getElementById('topTitle').textContent='✏️ Chỉnh Sửa';
+}
+
+function saveEdit(){
+    const title=document.getElementById('titleInput').value.trim()||'Ký ức êm đềm ☁️';
+    const content=document.getElementById('contentEdit').value.trim();
+    if(!content){toast('Trống rỗng rùi sếp ơi! ⚠️');return;}
+    const mems=getM();
+    const idx=mems.findIndex(m=>m.id===memId);
+    if(idx!==-1){mems[idx].title=title;mems[idx].content=content;setM(mems);}
+    toast('Đã cập nhật siêu mượt! ✨');
+    setTimeout(()=>init(),300);
+    cancelEdit();
+}
+
+function cancelEdit(){
+    document.getElementById('titleInput').readOnly=true;
+    document.getElementById('viewSection').style.display='block';
+    document.getElementById('editSection').style.display='none';
+    document.getElementById('saveEditBtn').style.display='none';
+    document.getElementById('topTitle').textContent='Xem Ký Ức 📖';
+    init();
+}
+
+function goChat(){
+    const mem=getM().find(m=>m.id===memId);
+    if(mem){sessionStorage.setItem('CC_ChatCtx',JSON.stringify({title:mem.title,content:mem.content,mode:'normal'}));}
+    location.href='Chat.html';
+}
+
+function goTalk(){
+    const mem=getM().find(m=>m.id===memId);
+    if(mem){sessionStorage.setItem('CC_TalkCtx',JSON.stringify({title:mem.title,content:mem.content}));}
+    location.href='Noi.html';
+}
+
+window.onload=init;
+</script>
+</body>
+</html>

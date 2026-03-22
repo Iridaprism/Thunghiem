@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Kho Lưu Trữ Tối Mật 🗂️</title>
+<script>(function(){try{let c=JSON.parse(localStorage.getItem('Cloyveh_Theme'));if(c&&c.length>0){let g=c.length===1?`linear-gradient(135deg,${c[0]}dd,${c[0]},${c[0]}ee)`:`linear-gradient(135deg,${c.join(',')})`;let s=document.createElement('style');s.innerHTML=`body{background:${g}!important;background-size:300% 300%!important;animation:bgShift 25s ease infinite!important;}`;document.head.appendChild(s);}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Base.css">
+<style>
+body { display: flex; flex-direction: column; min-height: 100vh; }
+.page-wrap { flex: 1; display: flex; flex-direction: column; gap: 13px; }
+
+/* ── TABS ── */
+.tab-row {
+    display: flex; gap: 6px;
+    background: rgba(232,224,255,.65);
+    padding: 5px; border-radius: 16px;
+    border: 1.5px solid rgba(196,181,253,.4);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+}
+.tab-btn {
+    flex: 1; padding: 10px 0; border-radius: 12px;
+    background: transparent; font-weight: 800;
+    color: var(--ink3); border: none !important;
+    cursor: pointer; font-size: .9rem;
+    touch-action: manipulation;
+    will-change: transform; transform: translateZ(0);
+    transition: background .3s var(--silk), color .2s, box-shadow .3s;
+}
+.tab-btn:active {
+    transform: scale(.93) translateZ(0) !important;
+    transition: transform .07s var(--snap) !important;
+}
+.tab-btn.active {
+    background: linear-gradient(135deg,
+        rgba(238,242,255,.92), rgba(224,242,254,.88)) !important;
+    color: var(--v) !important;
+    box-shadow: 0 4px 14px rgba(99,102,241,.18) !important;
+}
+
+/* ── SAVED ITEMS ── */
+.saved-list {
+    display: flex; flex-direction: column;
+    gap: 12px; padding-bottom: 28px;
+}
+
+.saved-item {
+    background: linear-gradient(135deg,
+        rgba(238,242,255,.65), rgba(224,242,254,.58));
+    border: 1.5px solid rgba(196,181,253,.4);
+    border-radius: 22px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow-card);
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition: transform .38s var(--silk), box-shadow .38s var(--silk);
+    overflow: hidden; position: relative;
+}
+.saved-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg,#7c3aed,#38bdf8,#34d399,#f472b6);
+    background-size: 300% auto;
+    animation: borderFlow 6s linear infinite;
+    border-radius: 22px 22px 0 0;
+}
+.saved-item:hover {
+    transform: translateY(-3px) translateZ(0);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.saved-meta {
+    font-size: .82rem; color: var(--ink3);
+    font-weight: 700; margin-bottom: 8px;
+    opacity: .88;
+    letter-spacing: .01em;
+}
+.saved-text {
+    font-size: .92rem; color: var(--ink2);
+    font-weight: 600; line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; -webkit-box-orient: vertical;
+    overflow: hidden; margin-bottom: 12px;
+}
+
+/* ── ITEM ACTION BUTTONS ── */
+.row-btns { display: flex; gap: 9px; }
+
+.s-btn {
+    padding: 8px 18px; border-radius: 16px;
+    font-weight: 900; font-size: .84rem;
+    cursor: pointer; touch-action: manipulation;
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition: box-shadow .3s var(--silk), transform .3s var(--silk);
+    border: 2px solid transparent;
+    box-shadow: 0 3px 10px rgba(0,0,0,.07),
+                inset 0 1px 0 rgba(255,255,255,.35);
+}
+.s-btn:active {
+    transform: scale(.91) translateZ(0) !important;
+    transition: transform .07s var(--snap) !important;
+}
+
+.s-copy {
+    background: linear-gradient(135deg,
+        rgba(186,230,253,.85), rgba(167,243,208,.8));
+    color: #064e3b;
+    border-color: rgba(52,211,153,.4);
+}
+.s-copy:hover { box-shadow: var(--gm); }
+
+.s-del {
+    background: linear-gradient(135deg,
+        rgba(254,202,202,.88), rgba(252,165,165,.82));
+    color: #991b1b;
+    border-color: rgba(248,113,113,.45);
+}
+.s-del:hover {
+    box-shadow: 0 0 12px rgba(239,68,68,.55),
+                0 0 26px rgba(239,68,68,.25);
+}
+
+/* ── EMPTY STATE ── */
+.empty {
+    text-align: center; padding: 32px 20px;
+    font-weight: 800; color: #64748b;
+    background: rgba(248,250,252,.58);
+    border-radius: 22px;
+    border: 2px dashed rgba(148,163,184,.42);
+    font-size: .96rem; line-height: 1.7;
+}
+</style>
+</head>
+<body>
+<!-- Vault ambient orb -->
+<div style="position:fixed;top:30vh;right:-6vw;width:clamp(150px,30vw,270px);height:clamp(150px,30vw,270px);background:radial-gradient(circle,rgba(196,181,253,.2) 0%,rgba(244,114,182,.12) 55%,transparent 75%);border-radius:50%;animation:orbPulse 20s ease-in-out infinite;pointer-events:none;z-index:0;will-change:transform,opacity;"></div>
+
+<div class="topbar">
+    <a href="index.html" class="btn-back">← Về Kho</a>
+    <div class="topbar-title">🗂️ Kho Lưu Trữ Tối Mật</div>
+    <div style="width:60px"></div>
+</div>
+
+<div class="page-wrap">
+    <div class="tab-row">
+        <button class="tab-btn active" id="tab-normal" onclick="switchTab('normal')">💬 Chat</button>
+        <button class="tab-btn" id="tab-search" onclick="switchTab('search')">🔍 Tìm</button>
+        <button class="tab-btn" id="tab-prompt" onclick="switchTab('prompt')">🪄 Phù Thủy</button>
+    </div>
+    <div class="saved-list" id="savedList"></div>
+</div>
+
+<div class="toast" id="toast">✨ Thông báo</div>
+<script>
+const SK='Cloyveh_Saved_Chats';
+let currentTab='normal';
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2500);}
+
+function switchTab(mode){
+    currentTab=mode;
+    ['normal','search','prompt'].forEach(t=>{
+        document.getElementById('tab-'+t).classList.toggle('active',t===mode);
+    });
+    render();
+}
+
+function render(){
+    const list=document.getElementById('savedList');
+    const saved=JSON.parse(localStorage.getItem(SK)||'[]').filter(s=>(s.mode||'normal')===currentTab);
+    if(!saved.length){list.innerHTML='<div class="empty">Chưa có gì cả... 🌸</div>';return;}
+    list.innerHTML='';
+    saved.forEach(s=>{
+        const d=document.createElement('div');d.className='saved-item';
+        d.innerHTML=`<div class="saved-meta">${s.date} ${s.time}</div>
+            <div class="saved-text">${(s.text||'').replace(/</g,'&lt;')}</div>
+            <div class="row-btns">
+                <button class="s-btn s-copy" onclick="copyItem(${JSON.stringify(s.text||'')})">📋 Copy</button>
+                <button class="s-btn s-del" onclick="delItem(${s.id})">🗑️ Xóa</button>
+            </div>`;
+        list.appendChild(d);
+    });
+}
+
+function copyItem(text){navigator.clipboard.writeText(text).then(()=>toast('Đã copy! 📋')).catch(()=>{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);toast('Đã copy! 📋');});}
+
+function delItem(id){
+    const saved=JSON.parse(localStorage.getItem(SK)||'[]').filter(s=>s.id!==id);
+    localStorage.setItem(SK,JSON.stringify(saved));
+    render();toast('Đã xóa! 💨');
+}
+
+window.onload=render;
+</script>
+</body>
+</html>

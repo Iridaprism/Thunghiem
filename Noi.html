@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Đàm Đạo Đa Nhân Cách 🎙️</title>
+<script>(function(){try{let c=JSON.parse(localStorage.getItem('Cloyveh_Theme'));if(c&&c.length>0){let g=c.length===1?`linear-gradient(135deg,${c[0]}dd,${c[0]},${c[0]}ee)`:`linear-gradient(135deg,${c.join(',')})`;let s=document.createElement('style');s.innerHTML=`body{background:${g}!important;background-size:300% 300%!important;animation:bgShift 25s ease infinite!important;}`;document.head.appendChild(s);}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Base.css">
+<script src="AudioEngine.js"></script>
+<script src="Lenh.js"></script>
+<style>
+body { display: flex; flex-direction: column; min-height: 100vh; }
+.page-wrap { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+/* ── FOLDER TAG ── */
+.folder-tag {
+    text-align: center;
+    font-size: .9rem; font-weight: 800; color: var(--ink2);
+    padding: 10px 18px;
+    background: linear-gradient(135deg,
+        rgba(233,213,255,.55), rgba(186,230,253,.5));
+    border: 1.5px solid rgba(196,181,253,.42);
+    border-radius: 16px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+}
+.folder-tag span {
+    color: var(--v); font-weight: 900;
+    text-shadow: 0 0 12px rgba(124,58,237,.3);
+}
+
+/* ── INFO BOX ── */
+.info-box {
+    background: linear-gradient(135deg,
+        rgba(238,242,255,.6), rgba(224,242,254,.55));
+    border: 1.5px dashed rgba(196,181,253,.55);
+    padding: 16px 20px; border-radius: 22px;
+    font-size: .9rem; font-weight: 700;
+    color: var(--ink2); line-height: 2;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+/* Voice rows with colored dots */
+.info-box p {
+    display: flex; align-items: center; gap: 10px;
+    padding: 2px 0;
+}
+.info-box p::before {
+    content: '';
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px currentColor;
+}
+.info-box p:nth-child(1)::before { background: #f472b6; color: #f472b6; }
+.info-box p:nth-child(2)::before { background: #a78bfa; color: #a78bfa; }
+.info-box p:nth-child(3)::before { background: #38bdf8; color: #38bdf8; }
+.info-box p:nth-child(4)::before { background: #34d399; color: #34d399; }
+
+/* ── PROGRESS ── */
+.prog-wrap {
+    background: rgba(196,181,253,.25);
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(196,181,253,.35);
+    height: 11px;
+    box-shadow: inset 0 1px 4px rgba(124,58,237,.12);
+}
+.prog-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg,
+        #7c3aed,#c084fc,#38bdf8,#34d399);
+    background-size: 300% auto;
+    animation: borderFlow 2s linear infinite;
+    transition: width .35s var(--silk);
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(124,58,237,.4);
+}
+
+.status-text {
+    font-weight: 800; color: var(--ink3);
+    font-size: .9rem; text-align: center;
+}
+
+.loading-area {
+    display: none; flex-direction: column;
+    gap: 13px; align-items: center;
+    padding: 16px;
+    background: linear-gradient(135deg,
+        rgba(238,242,255,.55), rgba(224,242,254,.5));
+    border-radius: 22px;
+    border: 1.5px solid rgba(196,181,253,.38);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+/* ── DOWNLOAD BUTTON ── */
+.btn-dl {
+    display: none; text-align: center;
+    background: linear-gradient(135deg,#34d399,#10b981,#059669);
+    color: rgba(236,253,245,.97);
+    padding: 15px 24px; border-radius: 20px;
+    font-weight: 900; text-decoration: none;
+    box-shadow: 0 8px 26px rgba(16,185,129,.38),
+                inset 0 1px 0 rgba(255,255,255,.22);
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition: transform .35s var(--silk), box-shadow .35s var(--silk);
+    font-size: clamp(.95rem,3vw,1.05rem);
+    letter-spacing: .015em;
+}
+.btn-dl:hover { box-shadow: var(--gm); }
+.btn-dl:active {
+    transform: scale(.93) translateZ(0) !important;
+    transition: transform .07s var(--snap) !important;
+}
+
+/* ── START BUTTON ── */
+.btn-start {
+    width: 100%; padding: clamp(15px,4vw,20px);
+    font-size: clamp(1rem,3.5vw,1.1rem);
+    background: linear-gradient(135deg,#fbcfe8,#f472b6,#ec4899,#db2777);
+    color: #500724;
+    border: 2px solid rgba(244,114,182,.6);
+    font-weight: 900; border-radius: 22px;
+    box-shadow: 0 8px 28px rgba(244,114,182,.35),
+                inset 0 1px 0 rgba(255,255,255,.2);
+    cursor: pointer; touch-action: manipulation;
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition: transform .38s var(--silk), box-shadow .38s var(--silk);
+    letter-spacing: .02em;
+}
+.btn-start:hover { box-shadow: var(--gn); }
+.btn-start:active {
+    transform: scale(.93) translateZ(0) !important;
+    transition: transform .07s var(--snap) !important;
+}
+
+/* Model select styled for audio page */
+.audio-select {
+    width: 100%;
+    background: linear-gradient(135deg,
+        rgba(253,230,138,.55), rgba(251,207,232,.5), rgba(233,213,255,.55));
+    border: 2px solid rgba(244,114,182,.45);
+    border-radius: 20px;
+    padding: clamp(12px,3vw,15px) 20px;
+    font-size: clamp(.9rem,3vw,1rem);
+    font-weight: 800; color: var(--ink);
+    outline: none;
+    box-shadow: inset 0 2px 8px rgba(244,114,182,.07),
+                0 3px 14px rgba(244,114,182,.1);
+    transition: border-color .3s var(--silk), box-shadow .3s var(--silk);
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%237c3aed' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center;
+    cursor: pointer;
+    will-change: box-shadow; transform: translateZ(0);
+}
+.audio-select:hover { box-shadow: var(--gn); }
+</style>
+</head>
+<body>
+<!-- Pink nebula ambient orb -->
+<div style="position:fixed;top:-8vh;left:-8vw;width:clamp(220px,45vw,380px);height:clamp(220px,45vw,380px);background:radial-gradient(circle,rgba(244,114,182,.26) 0%,rgba(192,132,252,.18) 45%,transparent 72%);border-radius:50%;animation:orbPulse 22s ease-in-out infinite;pointer-events:none;z-index:0;will-change:transform,opacity;"></div>
+
+<div class="topbar">
+    <a href="javascript:goBack()" class="btn-back">← Về</a>
+    <div class="topbar-title">🎙️ Đàm Đạo</div>
+    <div style="width:60px"></div>
+</div>
+
+<div class="page-wrap">
+    <p class="folder-tag">Thư mục: <span id="folderName">Ký ức vô danh</span></p>
+
+    <select id="talkModel" class="audio-select">
+        <option value="gemini-2.5-flash-lite">⚡ Gemini-2.5-Flash-Lite (Siêu Nhanh)</option>
+        <option value="gemini-2.5-flash">🧠 Gemini-2.5-Flash (Nhanh)</option>
+        <option value="gemini-3-flash-preview">💎 Gemini-3-Flash-Preview (Mới Nhất)</option>
+    </select>
+
+    <div class="info-box">
+        <p>🌸 1. Nữ nhẹ nhàng</p>
+        <p>🍷 2. Nam/nữ trung tính</p>
+        <p>🛡️ 3. Nam chính</p>
+        <p>💬 4. Nữ chính</p>
+    </div>
+
+    <div class="loading-area" id="loadingArea">
+        <p class="status-text" id="statusText">Đang ép AI viết kịch bản... ✍️</p>
+        <div class="prog-wrap" style="width:100%">
+            <div class="prog-bar" id="progBar"></div>
+        </div>
+    </div>
+
+    <a id="btnDl" class="btn-dl" download="PhienDamDao_Iridaprism.mp3">💾 Lưu File MP3 Vào Máy</a>
+
+    <button id="btnStart" class="btn-start" onclick="startTalk()">🎙️ Bắt đầu Đàm Đạo!</button>
+
+    <a href="javascript:goBack()" class="btn-back"
+       style="text-align:center;padding:14px;border-radius:18px;font-size:1rem;text-decoration:none;display:flex;justify-content:center;">
+        ← Quay lại
+    </a>
+</div>
+
+<audio id="audioPlayer" style="display:none"></audio>
+<div class="toast" id="toast">✨ Thông báo</div>
+<script>
+const AK='Cloyveh_API_Key';
+let talkCtx={title:'Ký ức vô danh',content:''};
+let finalBlobUrl='';
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2500);}
+function goBack(){const r=sessionStorage.getItem('CC_TalkFrom')||'index.html';sessionStorage.removeItem('CC_TalkCtx');sessionStorage.removeItem('CC_TalkFrom');location.href=r;}
+
+function init(){
+    const raw=sessionStorage.getItem('CC_TalkCtx');
+    if(raw){talkCtx=JSON.parse(raw);}
+    document.getElementById('folderName').textContent=talkCtx.title||'Ký ức vô danh';
+    const from=document.referrer||'';
+    if(from.includes('CapNhat'))sessionStorage.setItem('CC_TalkFrom','CapNhat.html');
+}
+
+const PROXIES=[
+    u=>'https://corsproxy.io/?'+encodeURIComponent(u),
+    u=>'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u),
+    u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u),
+];
+function fetchTO(url,ms=14000){return Promise.race([fetch(url),new Promise((_,r)=>setTimeout(()=>r(new Error('Timeout')),ms))]);}
+
+async function fetchAudioBlob(text,voiceId){
+    const voice=(voiceId==1||voiceId==4)?'vi-VN-HoaiMyNeural':'vi-VN-NamMinhNeural';
+    const apiUrl=`https://api.tts.quest/v3/voice/tts?text=${encodeURIComponent(text)}&voice=${encodeURIComponent(voice)}`;
+    let mp3='';
+    for(let i=0;i<3;i++){try{const r=await fetchTO(PROXIES[i](apiUrl));if(!r.ok)continue;const d=await r.json();if(d&&d.success&&d.mp3){mp3=d.mp3;break;}}catch(e){}}
+    if(!mp3)throw new Error('Chặn tường lửa API');
+    for(let i=0;i<3;i++){try{const r=await fetchTO(PROXIES[i](mp3),20000);if(!r.ok)continue;const buf=await r.arrayBuffer();if(buf.byteLength>2048)return new Blob([buf],{type:'audio/mpeg'});}catch(e){}}
+    throw new Error('Tải MP3 thất bại');
+}
+
+async function startTalk(){
+    const apiKey=localStorage.getItem(AK)||'';
+    if(!apiKey){toast('Sếp chưa nhập API Key kìa! 🔑');return;}
+    const audio=document.getElementById('audioPlayer');
+    audio.src='';audio.play().catch(()=>{});audio.pause();
+    const model=document.getElementById('talkModel').value;
+    document.getElementById('btnStart').style.display='none';
+    document.getElementById('loadingArea').style.display='flex';
+    const status=document.getElementById('statusText');
+    const prog=document.getElementById('progBar');
+    status.textContent='1/3: Ép AI viết kịch bản... ✍️';prog.style.width='10%';
+    try{
+        const promptData=`[Tên Thư Mục]: ${talkCtx.title}\n[Toàn Bộ Nội Dung]: ${talkCtx.content}`;
+        const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+            {method:'POST',headers:{'Content-Type':'application/json'},
+             body:JSON.stringify({contents:[{role:'user',parts:[{text:promptData}]}],systemInstruction:{parts:[{text:window.MAT_LENH_THAO_LUAN||'Mày là Bộ Máy Thảo Luận. Trả lời theo mẫu # mã_giọng (nội dung) #. Tối thiểu 4 giọng phải xuất hiện.'}]}})});
+        const d=await res.json();
+        if(d.error)throw new Error(d.error.message);
+        const aiText=d.candidates[0].content.parts[0].text;
+        status.textContent='2/3: Đang bóc tách kịch bản... 🔍';prog.style.width='20%';
+        const regex=/#\s*(\d)\s*\((.*?)\)\s*#/g;
+        let match;const segs=[];
+        while((match=regex.exec(aiText))!==null){segs.push({voiceId:parseInt(match[1]),text:match[2].trim()});}
+        if(!segs.length)throw new Error('AI dở hơi không thèm viết theo mẫu!');
+        status.textContent=`3/3: Đang tải audio (0/${segs.length})... 📥`;
+        const results=[];
+        for(let i=0;i<segs.length;i++){
+            const seg=segs[i];let result;
+            if(typeof window.generateAudio==='function'){
+                result=await window.generateAudio(seg.text,seg.voiceId);
+            } else {
+                const blob=await fetchAudioBlob(seg.text,seg.voiceId);
+                result={blob,playbackRate:1.0,preservesPitch:true,personaName:`Voice ${seg.voiceId}`};
+            }
+            results.push(result);
+            prog.style.width=`${20+(50*(i+1)/segs.length)}%`;
+            status.textContent=`3/3: Đang tải audio (${i+1}/${segs.length})... 📥`;
+        }
+        const finalBlob=new Blob(results.map(r=>r.blob),{type:'audio/mpeg'});
+        if(finalBlobUrl)URL.revokeObjectURL(finalBlobUrl);
+        finalBlobUrl=URL.createObjectURL(finalBlob);
+        const btnDl=document.getElementById('btnDl');
+        btnDl.href=finalBlobUrl;btnDl.style.display='block';
+        for(let i=0;i<results.length;i++){
+            const r=results[i];
+            const url=URL.createObjectURL(r.blob);
+            prog.style.width=`${70+(28*i/results.length)}%`;
+            status.textContent=`🎙️ Đoạn ${i+1}/${results.length} · ${r.personaName}`;
+            audio.src=url;audio.playbackRate=r.playbackRate;audio.preservesPitch=r.preservesPitch;
+            await new Promise((resolve,reject)=>{
+                const onEnd=()=>{cleanup();resolve();};
+                const onErr=()=>{cleanup();reject(new Error(`Lỗi phát đoạn ${i+1}`));};
+                function cleanup(){audio.removeEventListener('ended',onEnd);audio.removeEventListener('error',onErr);}
+                audio.addEventListener('ended',onEnd);audio.addEventListener('error',onErr);
+                audio.play().catch(reject);
+            });
+            URL.revokeObjectURL(url);
+        }
+        prog.style.width='100%';status.textContent='✅ Đã phát xong siêu phẩm!';
+    }catch(err){
+        status.textContent=`❌ Lỗi rùi: ${err.message}`;
+        status.style.color='#ef4444';
+        document.getElementById('btnStart').style.display='block';
+    }
+}
+
+window.onload=init;
+</script>
+</body>
+</html>

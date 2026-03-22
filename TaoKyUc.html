@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Tạo Ký Ức Mới ✨</title>
+<script>(function(){try{let c=JSON.parse(localStorage.getItem('Cloyveh_Theme'));if(c&&c.length>0){let g=c.length===1?`linear-gradient(135deg,${c[0]}dd,${c[0]},${c[0]}ee)`:`linear-gradient(135deg,${c.join(',')})`;let s=document.createElement('style');s.innerHTML=`body{background:${g}!important;background-size:300% 300%!important;animation:bgShift 25s ease infinite!important;}`;document.head.appendChild(s);}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Base.css">
+<style>
+body { display: flex; flex-direction: column; min-height: 100vh; }
+.page-wrap { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+.hint {
+    font-size: .88rem; color: var(--ink3);
+    font-weight: 700; padding: 0 4px;
+    opacity: .9;
+}
+
+/* Section labels with subtle neon left border */
+.section-label {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 4px;
+}
+.section-label::before {
+    content: '';
+    width: 4px; height: 18px;
+    background: linear-gradient(180deg,#7c3aed,#38bdf8);
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(124,58,237,.5);
+    flex-shrink: 0;
+}
+
+.btn-save-main {
+    background: linear-gradient(135deg,#6ee7b7,#34d399,#10b981,#059669);
+    color: rgba(236,253,245,.97);
+    font-weight: 900;
+    font-size: clamp(1rem,3.5vw,1.12rem);
+    padding: clamp(15px,4vw,20px) 32px;
+    border-radius: 22px;
+    border: 2px solid rgba(52,211,153,.55);
+    box-shadow: 0 8px 28px rgba(16,185,129,.38),
+                inset 0 1px 0 rgba(255,255,255,.22);
+    width: 100%;
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition: transform .38s var(--silk), box-shadow .38s var(--silk);
+    letter-spacing: .02em;
+}
+.btn-save-main:hover {
+    box-shadow: var(--gm), 0 10px 36px rgba(16,185,129,.28);
+}
+.btn-save-main:active {
+    transform: scale(.93) translateZ(0) !important;
+    transition: transform .07s var(--snap) !important;
+}
+
+.char-count {
+    text-align: right; font-size: .82rem;
+    font-weight: 700; color: var(--ink3);
+    padding: 0 4px; opacity: .8;
+}
+
+/* Textarea wrapper with glow ring */
+.textarea-wrap {
+    position: relative;
+}
+.textarea-wrap::before {
+    content: '';
+    position: absolute; inset: -2px;
+    border-radius: 26px;
+    background: linear-gradient(135deg,#7c3aed,#38bdf8,#34d399,#f472b6);
+    background-size: 300% auto;
+    animation: borderFlow 5s linear infinite;
+    opacity: 0;
+    transition: opacity .4s var(--silk);
+    z-index: -1;
+    pointer-events: none;
+}
+.textarea-wrap:focus-within::before {
+    opacity: .35;
+}
+</style>
+</head>
+<body>
+<!-- Ambient orb -->
+<div style="position:fixed;top:20vh;left:-8vw;width:clamp(180px,36vw,320px);height:clamp(180px,36vw,320px);background:radial-gradient(circle,rgba(52,211,153,.18) 0%,rgba(56,189,248,.12) 55%,transparent 75%);border-radius:50%;animation:orbPulse2 24s ease-in-out infinite;pointer-events:none;z-index:0;will-change:transform,opacity;"></div>
+
+<div class="topbar">
+    <a href="index.html" class="btn-back">← Về Kho</a>
+    <div class="topbar-title">✨ Tạo Ký Ức Mới</div>
+    <div style="width:80px"></div>
+</div>
+
+<div class="page-wrap">
+    <div class="section-label">
+        <p class="hint">Đặt tên cho ký ức này nhé Nữ Vương 👑</p>
+    </div>
+
+    <input type="text" id="titleInput" class="glass-input"
+           placeholder="Tên ký ức... (VD: Kế hoạch tháng 3 🌸)"
+           maxlength="100" oninput="updateCount()">
+
+    <div class="section-label" style="margin-top:-4px">
+        <p class="hint">Nội dung chi tiết 📝</p>
+    </div>
+
+    <div class="textarea-wrap">
+        <textarea id="contentInput" class="glass-textarea"
+                  placeholder="Nội dung là gì ta... 💭&#10;&#10;Cứ thoải mái ghi vào, Mị sẽ giữ gìn cẩn thận! 🔐"
+                  style="height:clamp(220px,45vw,360px)"
+                  oninput="updateCount()"></textarea>
+    </div>
+
+    <p class="char-count" id="charCount">0 ký tự</p>
+
+    <button class="btn-save-main" onclick="saveMemory()">💾 Lưu vào Két Sắt!</button>
+
+    <a href="index.html" class="btn-back"
+       style="text-align:center;padding:14px;border-radius:18px;font-size:1rem;text-decoration:none;display:flex;justify-content:center;">
+        ↩ Quay lại không lưu
+    </a>
+</div>
+
+<div class="toast" id="toast">✨ Thông báo</div>
+<script>
+const MK='Cloyveh_Codex_V2';
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2500);}
+function updateCount(){const c=document.getElementById('contentInput').value.length;document.getElementById('charCount').textContent=c+' ký tự';}
+function saveMemory(){
+    const title=document.getElementById('titleInput').value.trim()||'Ký ức êm đềm ☁️';
+    const content=document.getElementById('contentInput').value.trim();
+    if(!content){toast('Sếp chưa nhập nội dung gì hết trơn! ⚠️');return;}
+    const mems=JSON.parse(localStorage.getItem(MK)||'[]');
+    const now=new Date();
+    mems.unshift({id:Date.now(),title,content,
+        date:`${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`,
+        time:`${now.getHours()}:${now.getMinutes()}`});
+    localStorage.setItem(MK,JSON.stringify(mems));
+    toast('Đã nhét vô két sắt! 📚');
+    setTimeout(()=>location.href='index.html',800);
+}
+document.getElementById('titleInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('contentInput').focus();}});
+</script>
+</body>
+</html>

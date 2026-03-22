@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Kính Chiếu Yêu 🔍</title>
+<script>(function(){try{let c=JSON.parse(localStorage.getItem('Cloyveh_Theme'));if(c&&c.length>0){let g=c.length===1?`linear-gradient(135deg,${c[0]}dd,${c[0]},${c[0]}ee)`:`linear-gradient(135deg,${c.join(',')})`;let s=document.createElement('style');s.innerHTML=`body{background:${g}!important;background-size:300% 300%!important;animation:bgShift 25s ease infinite!important;}`;document.head.appendChild(s);}}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Base.css">
+<script src="Timkiem.js"></script>
+<style>
+body {
+    display: flex; flex-direction: column;
+    height: 100vh; overflow: hidden;
+}
+.topbar { flex-shrink: 0; }
+
+.chat-wrap {
+    flex: 1; display: flex;
+    flex-direction: column; overflow: hidden;
+    position: relative; z-index: 10;
+}
+
+.chat-body {
+    flex: 1; overflow-y: auto;
+    padding: clamp(14px,3.5vw,20px);
+    display: flex; flex-direction: column;
+    gap: 15px; scroll-behavior: smooth;
+}
+
+.chat-foot {
+    flex-shrink: 0;
+    padding: 10px clamp(12px,3vw,20px) clamp(12px,3vw,18px);
+    background: linear-gradient(90deg,
+        rgba(186,230,253,.48), rgba(224,242,254,.42));
+    backdrop-filter: blur(24px);
+    border-top: 1.5px solid rgba(56,189,248,.3);
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Ocean-theme pill */
+.pill {
+    display: flex; align-items: flex-end; gap: 9px;
+    background: linear-gradient(135deg,
+        rgba(186,230,253,.82), rgba(224,242,254,.76));
+    border: 2px solid rgba(56,189,248,.5);
+    border-radius: 32px;
+    padding: 6px 6px 6px 22px;
+    box-shadow: 0 6px 26px rgba(56,189,248,.15),
+                inset 0 1px 0 rgba(255,255,255,.45);
+    will-change: box-shadow;
+    transform: translateZ(0);
+    transition: box-shadow .35s var(--silk), border-color .35s var(--silk);
+}
+.pill:focus-within {
+    border-color: rgba(56,189,248,.72);
+    box-shadow: 0 0 0 4px rgba(56,189,248,.18),
+                0 6px 26px rgba(56,189,248,.22);
+}
+
+/* Ocean model selector */
+.model-pill {
+    background: linear-gradient(90deg,
+        rgba(186,230,253,.78), rgba(167,243,208,.7));
+    border: 2px solid rgba(56,189,248,.5);
+    border-radius: 16px;
+    padding: 8px 32px 8px 14px;
+    font-weight: 900; color: var(--ink);
+    font-size: clamp(.76rem,2.5vw,.9rem);
+    cursor: pointer;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%237c3aed' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 11px center;
+    box-shadow: 0 3px 14px rgba(56,189,248,.18),
+                inset 0 1px 0 rgba(255,255,255,.35);
+    will-change: box-shadow; transform: translateZ(0);
+    transition: box-shadow .3s var(--silk), transform .3s var(--silk);
+}
+.model-pill:hover {
+    box-shadow: var(--go);
+    transform: translateY(-1px) translateZ(0);
+}
+
+/* Ocean send button */
+.btn-send-ocean {
+    background: linear-gradient(135deg,#67e8f9,#22d3ee,#0891b2);
+    color: #082f49;
+    width: 46px; height: 46px; flex-shrink: 0;
+    border-radius: 50%;
+    box-shadow: 0 5px 22px rgba(56,189,248,.5);
+    border: 2px solid rgba(255,255,255,.28);
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    transition: box-shadow .3s var(--silk), transform .3s var(--silk);
+}
+.btn-send-ocean:hover { box-shadow: var(--go); }
+.btn-send-ocean:active {
+    transform: scale(.93) translateZ(0) !important;
+    transition: transform .07s var(--snap) !important;
+}
+
+/* Ocean-themed AI messages */
+.msg-ai-ocean {
+    background: linear-gradient(135deg,
+        rgba(186,230,253,.68), rgba(167,243,208,.65), rgba(221,214,254,.65)) !important;
+    border-color: rgba(56,189,248,.38) !important;
+    box-shadow: 0 8px 26px rgba(56,189,248,.14),
+                inset 0 1px 0 rgba(255,255,255,.48) !important;
+}
+</style>
+</head>
+<body>
+<!-- Ocean ambient orb -->
+<div style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:140vw;height:50vh;background:radial-gradient(ellipse at center bottom,rgba(56,189,248,.2) 0%,rgba(52,211,153,.12) 40%,transparent 68%);pointer-events:none;z-index:0;will-change:opacity;"></div>
+
+<div class="topbar">
+    <a href="index.html" class="btn-back">← Về Kho</a>
+    <div class="topbar-title">🔍 Kính Chiếu Yêu</div>
+    <select class="model-pill" id="modelSel">
+        <option value="gemini-2.5-flash-lite">⚡ Lite</option>
+        <option value="gemini-2.5-flash">🧠 Flash</option>
+        <option value="gemini-3-flash-preview">💎 Pro</option>
+    </select>
+</div>
+
+<div class="chat-wrap">
+    <div class="chat-body" id="chatBody">
+        <div class="msg-wrap">
+            <div class="msg-ai msg-ai-ocean">
+                Kính chiếu yêu đã bật! 🕵️‍♀️💙<br>
+                <span style="font-size:.88rem;opacity:.82">Hỏi bất cứ điều gì, Mị sẽ tìm kiếm cho Nữ Vương!</span>
+            </div>
+        </div>
+    </div>
+    <div class="chat-foot">
+        <div class="pill">
+            <textarea id="chatInput" class="chat-input" rows="1" placeholder="Nữ Vương lùng sục gì thế? 🔍"></textarea>
+            <button class="btn-send-ocean" onclick="send()" id="btnSend">
+                <svg class="send-svg" fill="#082f49" viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast">✨ Thông báo</div>
+<script>
+const AK='Cloyveh_API_Key',SK='Cloyveh_Saved_Chats';
+let history=[],isSending=false;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2500);}
+
+function addMsg(who,text){
+    const body=document.getElementById('chatBody');
+    if(who==='user'){
+        const d=document.createElement('div');d.className='msg-user';d.textContent=text;body.appendChild(d);
+    } else {
+        const wrap=document.createElement('div');wrap.className='msg-wrap';
+        const d=document.createElement('div');d.className='msg-ai msg-ai-ocean';
+        d.textContent=text;
+        const btn=document.createElement('button');btn.className='btn-save-msg';btn.textContent='💾 Lưu đoạn này';
+        btn.onclick=()=>{
+            const saved=JSON.parse(localStorage.getItem(SK)||'[]');const now=new Date();
+            saved.unshift({id:Date.now(),mode:'search',text,date:`${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`,time:`${now.getHours()}:${now.getMinutes()}`});
+            localStorage.setItem(SK,JSON.stringify(saved));toast('Đã lưu! 💾');
+        };
+        wrap.appendChild(d);wrap.appendChild(btn);body.appendChild(wrap);
+    }
+    body.scrollTop=body.scrollHeight;
+}
+
+async function send(){
+    const input=document.getElementById('chatInput');
+    const text=input.value.trim();
+    if(!text||isSending)return;
+    const apiKey=localStorage.getItem(AK)||'';
+    if(!apiKey){toast('Sếp chưa nhập API Key kìa! 🔑');return;}
+    isSending=true;
+    const btn=document.getElementById('btnSend');btn.style.opacity='.5';btn.disabled=true;
+    addMsg('user',text);input.value='';input.style.height='';
+    history.push({role:'user',parts:[{text}]});
+    const sp=window.CLAUDE_SEARCH_PROMPT||'Bạn là trợ lý tìm kiếm thông tin. Hãy tìm và tóm tắt chính xác, đầy đủ nguồn nếu có.';
+    const model=document.getElementById('modelSel').value;
+    const tw=document.createElement('div');tw.className='msg-wrap';
+    tw.innerHTML='<div class="msg-ai msg-ai-ocean" style="opacity:.6">🔍 Đang tìm kiếm...</div>';
+    document.getElementById('chatBody').appendChild(tw);document.getElementById('chatBody').scrollTop=99999;
+    try{
+        const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+            {method:'POST',headers:{'Content-Type':'application/json'},
+             body:JSON.stringify({contents:history,systemInstruction:{parts:[{text:sp}]}})});
+        const data=await res.json();
+        if(data.error)throw new Error(data.error.message);
+        const aiText=data.candidates[0].content.parts[0].text;
+        history.push({role:'model',parts:[{text:aiText}]});
+        tw.remove();addMsg('ai',aiText);
+    }catch(err){
+        tw.remove();
+        const ew=document.createElement('div');ew.className='msg-wrap';
+        ew.innerHTML=`<div class="msg-ai" style="color:#ef4444">❌ Lỗi: ${err.message}</div>`;
+        document.getElementById('chatBody').appendChild(ew);
+    }finally{
+        isSending=false;btn.style.opacity='1';btn.disabled=false;
+        document.getElementById('chatBody').scrollTop=99999;
+    }
+}
+
+const ci=document.getElementById('chatInput');
+ci.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+ci.addEventListener('input',()=>{ci.style.height='auto';ci.style.height=Math.min(ci.scrollHeight,100)+'px';});
+</script>
+</body>
+</html>
